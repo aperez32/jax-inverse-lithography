@@ -6,7 +6,11 @@ This project implements a gradient-based optimization pipeline using **JAX** to 
 ## How it works
 1. A random phase map is initialized.
 2. Diffraction is simulated to distance z via solving:
+
+
 $$\frac{\partial U_z}{\partial z} = \frac{i}{2k} \nabla^2_\perp U$$
+
+
 Where:
 * $U_z$ is the complex amplitude of the electric field.
 * $k$ is the wavenumber ($2\pi/\lambda$).
