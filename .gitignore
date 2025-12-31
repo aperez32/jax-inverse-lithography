@@ -1,0 +1,5 @@
+__pycache__/
+/data/*.npz
+/results/*.npz
+/images/*.png
+/result_images/*.png
