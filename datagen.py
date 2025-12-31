@@ -11,12 +11,38 @@ def generate_X(cfg):
     c2 = c1[:, ::-1]
     T = c1 + c2
     mask = jnp.ones((N,N))
-    mask = mask.at[:80,:].set(0)
-    mask = mask.at[N-80:,:].set(0)
+    depth = 200
+    mask = mask.at[:depth,:].set(0)
+    mask = mask.at[N-depth:,:].set(0)
 
-    T =1- mask * T
+    T = mask * T
     
     jnp.savez("/home/jango/Coding/ILT/data/X.npz", target=T)
+
+def generate_manhattan(cfg):
+    N = cfg.N
+    T = jnp.zeros((N, N))
+    
+    feat_w = N // 20  
+    feat_l = N // 4   
+    gap = N // 15     
+    center = N // 2
+
+    T = T.at[center-feat_l:center, center-feat_w:center].set(1.0) 
+    T = T.at[center-feat_w:center, center-feat_l:center].set(1.0) 
+
+    block_size = N // 10
+    T = T.at[gap:gap+block_size, gap:gap+block_size].set(1.0) 
+    T = T.at[N-gap-block_size:N-gap, N-gap-block_size:N-gap].set(1.0) 
+
+    offset = N // 8
+    T = T.at[offset:offset+feat_l, offset:offset+feat_w].set(1.0)
+    T = T.at[offset:offset+feat_w, offset:offset+feat_l].set(1.0)
+    plt.imshow(T,cmap='viridis', interpolation='nearest')
+    plt.show()
+
+    jnp.savez(f"/home/jango/Coding/ILT/data/manhattan.npz", target=T)
+
 
 def generate_gaussian_blob(cfg):
     N = cfg.N
@@ -70,10 +96,9 @@ def image_to_npz(cfg):
     plt.show()
 
 
-# cfg = Config()
 # generate_X(cfg)
 # # image_to_npz(cfg)
 # cfg = Config()
-# # generate_gaussian_blob(cfg)
-# generate_two_spirals(cfg)
-
+# # # generate_gaussian_blob(cfg)
+# # generate_two_spirals(cfg)
+# generate_manhattan(cfg)

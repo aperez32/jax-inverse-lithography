@@ -39,13 +39,13 @@ def plot(cfg, f_name):
 
     def _update(i):
         im.set_data(Ss[i])
-        axs[0, 1].set_title(f"Ss frame {i+1}/{Ss.shape[0]}")
+        axs[0, 1].set_title(f"Imprint Evolution")
         return (im,)
 
     anim = FuncAnimation(fig, _update, frames=range(Ss.shape[0]), interval=150, blit=True)
 
-    anim.save(f"/home/jango/Coding/ILT/gifs/{f_name}_full.gif")
     plt.tight_layout()
+    anim.save(f"/home/jango/Coding/ILT/gifs/{f_name}_full.gif")
     plt.show()
 
     fig2, ax2 = plt.subplots(figsize=(4, 4))

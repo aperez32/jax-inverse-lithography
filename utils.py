@@ -74,13 +74,13 @@ def tv(phi, eps=1e-6):
 #     return a0 * (a1 / a0) ** frac
 
 # Saturation (Sigmoid)
-# @jax.jit
-# def alpha_schedule(t, T=cfg.steps, a0=5.0, a1=10.0, sharp=10.0):
-#     x = (t / (T - 1)) * 2 - 1          # map to [-1, 1]
-#     s = jax.nn.sigmoid(sharp * x)      # [~0, ~1]
-#     return a0 + (a1 - a0) * s
-
-# constant
 @jax.jit
 def alpha_schedule(t, T=cfg.steps, a0=5.0, a1=10.0, sharp=10.0):
-    return 5.0
+    x = (t / (T - 1)) * 2 - 1          # map to [-1, 1]
+    s = jax.nn.sigmoid(sharp * x)      # [~0, ~1]
+    return a0 + (a1 - a0) * s
+
+# constant
+# @jax.jit
+# def alpha_schedule(t, T=cfg.steps, a0=5.0, a1=10.0, sharp=10.0):
+#     return 5.0
